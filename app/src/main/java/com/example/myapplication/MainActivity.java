@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -120,10 +121,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     if(response.code() == 201) {
                         s = response.body().toString();
-                        Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
                     } else {
                         s = response.errorBody().toString();
-                        Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
                     }
 
                 } catch (Exception e) {
@@ -133,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     if(s != null) {
                         JSONObject jsonObject = new JSONObject(s);
+                        Toast.makeText(MainActivity.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 userSignup();
                 break;
             case R.id.viewlogin:
+                startActivity(new Intent(this, Login.class));
                 break;
         }
     }

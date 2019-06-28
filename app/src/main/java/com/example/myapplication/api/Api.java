@@ -1,6 +1,8 @@
 package com.example.myapplication.api;
 
 
+import com.example.myapplication.models.LoginResponse;
+
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -25,6 +27,13 @@ public interface Api {
             @Field("phone") String phone,
             @Field("city") String city
 
+    );
+
+    @FormUrlEncoded
+    @POST("userlogin/")
+    Call<LoginResponse> UserLogin(
+            @Field("email") String email,
+            @Field("password") String password
     );
 
 }
