@@ -2,6 +2,7 @@ package com.example.myapplication.api;
 
 
 import com.example.myapplication.models.LoginResponse;
+import com.example.myapplication.models.Trip;
 
 import java.util.List;
 

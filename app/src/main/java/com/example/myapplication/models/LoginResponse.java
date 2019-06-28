@@ -1,7 +1,5 @@
 package com.example.myapplication.models;
 
-import com.example.myapplication.api.User;
-
 public class LoginResponse {
     private boolean error;
     private String message;

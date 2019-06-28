@@ -1,30 +1,24 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.myapplication.api.Api;
+import com.example.myapplication.R;
 import com.example.myapplication.api.RetrofitClient;
-import com.example.myapplication.api.Trip;
+import com.example.myapplication.storage.SharedPreferenceManager;
 
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -46,6 +40,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.viewlogin).setOnClickListener(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(SharedPreferenceManager.getInstance(this).isLoggedIn()) {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            startActivity(intent);
+        }
+    }
     private void userSignup() {
         String name = editTextname.getText().toString().trim();
         String email = editTextemail.getText().toString().trim();

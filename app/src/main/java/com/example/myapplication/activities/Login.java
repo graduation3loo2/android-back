@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.myapplication.R;
 import com.example.myapplication.api.RetrofitClient;
 import com.example.myapplication.models.LoginResponse;
+import com.example.myapplication.storage.SharedPreferenceManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +31,18 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
         findViewById(R.id.signup).setOnClickListener(this);
         findViewById(R.id.viewlogin).setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(SharedPreferenceManager.getInstance(this).isLoggedIn()) {
+            Intent intent = new Intent(this, ProfileActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            startActivity(intent);
+        }
     }
 
     private void userLogin() {
@@ -68,6 +82,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 LoginResponse loginResponse =response.body();
 
                 if(!loginResponse.isError()) {
+
+                    SharedPreferenceManager.getInstance(Login.this)
+                            .saveUser(loginResponse.getUser());
+
+                    Intent intent = new Intent(Login.this, ProfileActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                    startActivity(intent);
 
                 } else {
                     Toast.makeText(Login.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
